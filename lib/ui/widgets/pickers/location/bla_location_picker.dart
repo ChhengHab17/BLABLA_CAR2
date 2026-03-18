@@ -1,9 +1,10 @@
-import 'package:blablacar_2/services/location_service.dart';
-import 'package:blablacar_2/ui/widgets/display/bla_divider.dart';
+import 'package:blablacar_2/data/repository/location/locations_repository.dart';
+import 'package:provider/provider.dart';
+import '../../display/bla_divider.dart';
 import 'package:flutter/material.dart';
 
-import '../../../model/ride/locations.dart';
-import '../../theme/theme.dart';
+import '../../../../model/ride/locations.dart';
+import '../../../theme/theme.dart';
 
 ///
 /// A  Location Picker is a view to pick a Location:
@@ -50,7 +51,9 @@ class _BlaLocationPickerState extends State<BlaLocationPicker> {
     if (currentSearchText.length < 2) {
       return [];
     }
-    return LocationsService.availableLocations
+    return context
+        .watch<LocationsRepository>()
+        .locations
         .where(
           (location) => location.name.toUpperCase().contains(
             currentSearchText.toUpperCase(),
